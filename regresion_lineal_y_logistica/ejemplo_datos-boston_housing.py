@@ -2,21 +2,25 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split # type: ignore
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from statsmodels.stats.stattools import durbin_watson
 from statsmodels.stats.diagnostic import het_breuschpagan
 import statsmodels.api as sm
 from scipy.stats import shapiro
-from sklearn.datasets import fetch_openml
 
-# boston = fetch_openml(name='boston', version=1, as_frame=True)
-# df = boston.frame
+import kagglehub
 
-df = pd.read_csv('datos\housing.csv') 
+# Download latest version
+path = kagglehub.dataset_download("schirmerchad/bostonhoustingmlnd")
 
+print("Path to dataset files:", path)
 
+# Load the dataset
+df = pd.read_csv(path + '/housing.csv')
+
+# Preprocesamiento de datos
 
 x = df[['RM', 'LSTAT', 'PTRATIO']]
 y = df['MEDV']
