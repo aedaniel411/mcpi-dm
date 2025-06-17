@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import joblib
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split # type: ignore
 from sklearn.linear_model import LinearRegression
@@ -12,7 +13,7 @@ from scipy.stats import shapiro
 
 import kagglehub
 
-# Download latest version
+# Download from Kaggle https://www.kaggle.com/datasets/schirmerchad/bostonhoustingmlnd 
 path = kagglehub.dataset_download("schirmerchad/bostonhoustingmlnd")
 
 print("Path to dataset files:", path)
@@ -29,6 +30,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 
 modelo = LinearRegression()
 modelo.fit(x_train, y_train)
+
+joblib.dump(modelo, 'modelo_regresion_lineal.pkl')
 
 y_pred = modelo.predict(x_test)
 

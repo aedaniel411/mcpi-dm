@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presicción de precios de casas</title>
-</head>
-<body>
-    <h1>Presicción de precios de casas</h1>
+{% extends "base.html" %}
+
+{% block contenido %}
+    <h1>Predicción de precios de casas</h1>
     <form method="post">
-        {{form.as_p}}
+        {{ form.as_p }}
         {% csrf_token %}
         <button type="submit">Predecir</button>
+    </form>
     
-</body>
-</html>
+    {% if resultado %}
+    <div>
+        <h2>Predicción del precio es: {{ resultado }}</h2>
+    </div>
+    {% endif %}
+{% endblock contenido %}
