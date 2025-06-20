@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block contenido %}
+    <div class="card">
+        <div class="card-header">
+            Formulario clasificación de tumor (mailgno - benigno)
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form %}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <br>
+                <button class="btn btn-primary" type="submit">Predecir</button>
+            </form>
+        </div>
+    </div>
+    {% if resultado %}
+        <div class="card mt-3">
+            <div class="card-header">
+                Clasíficación
+            </div>
+            <div class="card-body">
+                <p>El tumor es: <b>
+                {% if resultado == '0' %}
+                    Maligno
+                {% else %}
+                    Benigno
+                {% endif %}
+                    {{resultado}}</b></p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock contenido %}

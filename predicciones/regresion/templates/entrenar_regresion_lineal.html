@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+
+{% block contenido %}
+    <div class="card">
+        <div class="card-header">
+            Subir dataset de entrenamiento
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary" type="submit">Subir</button>
+            </form>
+            {% if estatus %}
+              <div class="alert alert-success">
+                {{estatus}}
+              </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            Entrenar
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% if resultados %}
+                    {% if resultados.error %}
+                        <h4 class="text-danger">{{resultados.error}}</h4 class="text-danger">
+                        <br>
+                    {% else %}
+                    <h3>Los resultados del entrenamiento son:</h3>
+                    <ul>
+                        <li>Intercepto: <b>{{resultados.intercepto }}</b></li>
+                        <li>Error cuadratico medio: <b>{{resultados.mse }}</b></li>
+                        <li>R cuadrada: <b>{{resultados.r_cuadrada }}</b></li>
+                        <li>Coeficientes:
+                            <ul>
+                                {% for coeficiente in resultados.coeficientes %}
+                                    <li><b>{{coeficiente}}</b></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>No autocorrelación(durbin-watson): <b>{{resultados.durbin_watson}}</b> (< 2).</li>
+                        <li>P-valor de Breusch-Pagan: <b>{{resultados.breusch_pagan}}</b> (> 0.05).</li>
+                        <li>P-valor de Shapiro-Wilk: <b>{{resultados.shapiro_wilk }}</b> (> 0.05).</li>
+                    
+                    </ul>
+                    <h6>Gráfica de Linealidad</h6>
+                    <img src="data:image/png;base64,{{ resultados.plot_linealidad }}" alt="">
+                    <h6>Gráfica de Residuos</h6>
+                    <img src="data:image/png;base64,{{ resultados.plot_residuos }}" alt="">
+                    <h6>Gráfica de Distribución de errores</h6>
+                    <img src="data:image/png;base64,{{ resultados.plot_normalidad_errores }}" alt="">
+                    <h6>Gráfica Suspuesto de No Colinealidad</h6>
+                    <img src="data:image/png;base64,{{ resultados.plot_matriz_correlacion }}" alt="">
+                    {% endif %}
+                {% endif %}
+                <input type="hidden" name="entrenar" value="ok">
+                <p>
+                    <button class="btn btn-primary" type="submit">Entrenar</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock contenido %}

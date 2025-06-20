@@ -1,11 +1,16 @@
 from django import forms
+from django.core.validators import FileExtensionValidator
+
+class FormSubirArchivo(forms.Form):
+    archivo = forms.FileField(
+        label='Dataset (csv, xls, xlsx)',
+        validators=[FileExtensionValidator(['csv','xls','xlsx'], 'Formato inválido', 'archivo_invalido')],
+        widget=forms.FileInput(attrs={'class':'form-control'})
+    )
 
 class FormRegresion(forms.Form):
-    """
-    Formulario para la regresión lineal.
-    """
-    rm = forms.FloatField(label='RM', required=True, min_value=0.0)
-    lstat = forms.FloatField(label='LSTAT', required=True, min_value=0.0)
-    piratio = forms.FloatField(label='PTRATIO', required=True, min_value=-100.0, max_value=100.0)
-
+    rm = forms.FloatField(label='RM', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    lstat = forms.FloatField(label='LSTAT', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    ptratio = forms.FloatField(label='PTRATIO', widget=forms.NumberInput(attrs={'class':'form-control'}))
     
+

@@ -10,36 +10,45 @@
 </head>
 <body>
     
-  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Predicciones</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Regresión lineal
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Entrenar</a></li>
-            <li><a class="dropdown-item" href="#">Predecir</a></li>
-          </ul>
-        </li>
-      </ul>
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark" >
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">Predicciones</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Regresión lineal
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'regresion_lineal_entrenar' %}">Entrenar</a></li>
+                            <li><a class="dropdown-item" href="{% url 'regresion_lineal' %}">Predecir</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Regresión logistica
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'regresion_logistica_entrenar' %}">Entrenar</a></li>
+                            <li><a class="dropdown-item" href="{% url 'regresion_logistica' %}">Clasificar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container pt-5">
+        {% block contenido %}
+        {% endblock contenido %}
     </div>
-  </div>
-</nav>
-<div class="container">
-    {% block contenido %}
-
-    {% endblock contenido %}
-</div>
 
 </body>
 </html>

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+
+{% block contenido %}
+    <div class="card">
+        <div class="card-header">
+            Subir dataset de entrenamiento
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-primary" type="submit">Subir</button>
+            </form>
+            {% if estatus %}
+            <div class="alert alert-success">
+                {{estatus}}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            Entrenar
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% if resultados %}
+                    {% if resultados.error %}
+                        <h4 class="text-danger">{{resultados.error}}</h4 class="text-danger">
+                    <br>
+                    {% else %}
+                        <div class="row">
+                            <div class="col">
+                                <h3>Los resultados del entrenamiento son:</h3>
+                                <ul>
+                                    <li>Clases: <b>{{resultados.clases.0 }} y {{resultados.clases.1 }}</b></li>
+                                    <li>Dimensión del dataset: No. muestras: <b>{{resultados.shape.0 }}</b>, No. características <b>{{resultados.shape.1}}</b></li>
+                                    <li>Exactitud: <b>{{resultados.accuracy|floatformat:2 }}</b></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>Reporte:</p>
+                            <div class="col">
+                                <p>Clase Maligno:</p>
+                                <ul>
+                                    <li>Precisión: <b>{{resultados.reporte.0.precision|floatformat:2}}</b></li>
+                                    <li>Recall: <b>{{resultados.reporte.0.recall|floatformat:2 }}</b></li>
+                                    <li>f1-score: <b>{{resultados.reporte.0.f1score|floatformat:2 }}</b></li>
+                                    <li>Support: <b>{{resultados.reporte.0.support|floatformat:0 }}</b></li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <p>Clase Benigno:</p>
+                                <ul>
+                                    <li>Precisión: <b>{{resultados.reporte.1.precision|floatformat:2}}</b></li>
+                                    <li>Recall: <b>{{resultados.reporte.1.recall|floatformat:2 }}</b></li>
+                                    <li>f1-score: <b>{{resultados.reporte.1.f1score|floatformat:2 }}</b></li>
+                                    <li>Support: <b>{{resultados.reporte.1.support|floatformat:0 }}</b></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Promedio simple:</p>
+                                <ul>
+                                    <li>Precisión: <b>{{resultados.reporte.macroavg.precision|floatformat:2}}</b></li>
+                                    <li>Recall: <b>{{resultados.reporte.macroavg.recall|floatformat:2 }}</b></li>
+                                    <li>f1-score: <b>{{resultados.reporte.macroavg.f1score|floatformat:2 }}</b></li>
+                                    <li>Support: <b>{{resultados.reporte.macroavg.support|floatformat:0 }}</b></li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <p>Promedio ponderado:</p>
+                                <ul>
+                                    <li>Precisión: <b>{{resultados.reporte.weightedavg.precision|floatformat:2}}</b></li>
+                                    <li>Recall: <b>{{resultados.reporte.weightedavg.recall|floatformat:2 }}</b></li>
+                                    <li>f1-score: <b>{{resultados.reporte.weightedavg.f1score|floatformat:2 }}</b></li>
+                                    <li>Support: <b>{{resultados.reporte.weightedavg.support|floatformat:0 }}</b></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6>Matriz de confusión</h6>
+                                <img src="data:image/png;base64,{{ resultados.plot_matriz_confusion }}" alt="">
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <input type="hidden" name="entrenar" value="ok">
+                <p>
+                    <button class="btn btn-primary" type="submit">Entrenar</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock contenido %}

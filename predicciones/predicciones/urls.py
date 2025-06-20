@@ -17,9 +17,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from regresion import views
+import regresion_logistica.views as viewsrl
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hola/', views.funcion_hola),
-    path('regresion/', views.funcion_regresion),
+
+    # página de bienvenida
+    path('', views.home, name='home'),
+
+    # regresión lineal
+    path('regresion-lineal/', views.funcion_regresion, name='regresion_lineal'),
+    path('regresion-lineal-entrenar/', views.funcion_regresion_entrenar, name='regresion_lineal_entrenar'),
+
+    # regresión lógistica
+    path('regresion-logistica/', viewsrl.funcion_regresion_logistica, name='regresion_logistica'),
+    path('regresion-logistica-entrenar/', viewsrl.funcion_regresion_logistica_entrenar, name='regresion_logistica_entrenar'),
+
+
+
 ]
